@@ -1,0 +1,44 @@
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.containerVideos {
+    display: flex;
+}
+
+.rowVideo {
+    text-align: center;
+    opacity: 0.6;
+    margin: 3%;
+}
+
+.rowVideo:hover {
+    text-align: center;
+    margin-bottom: 3%;
+    opacity: 1;
+    transform: scale(1.2);
+    transition-duration: 1s;
+    z-index: 50;
+}
+
+.linkVideo {
+    text-decoration: none;
+    margin: 10px 40px 0px 10px;
+    color: black;
+    font-size: 30px;
+}
+
+.link {
+    text-decoration: none;
+    margin: 10px 40px 0px 10px;
+    color: white;
+    font-size: 20px;
+}
+
+.link:hover {
+    opacity: 0.5;
+    color: white;
+    transform: scale(1.1);
+    transition-duration: 1s;
+}
