@@ -1,54 +1,83 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import ReactPlayer from "react-player";
+import './Home.css'
 
-class Videos extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            videoList: []
-        }
-    }
+function Home() {
+    const [videoList, setVideoList] = useState([]);
+    const [favoriteVideoList, setFavoriteVideoList] = useState([]);
+    const [loaded, setLoaded] = useState(false);
+    const [favLoaded, setFavLoaded] = useState(false);
 
-    componentDidMount() {
-        axios.get('http://localhost:4000/videoList').then(res => {
-            this.setState({
-                videoList: res.data
+    useState(function () {
+        if (!loaded) {
+            axios.get('http://localhost:4000/videoList').then(res => {
+                const videos = res.data;
+                setVideoList(videos);
+                setLoaded(true);
             });
-        });
-    }
+            axios.get('http://localhost:4000/favoriteVideoList').then(res => {
+                const videos = res.data;
+                setFavoriteVideoList(videos);
+                setFavLoaded(true);
+            });
 
-    render() {
-        const videos = this.state.videoList.map(video => {
-            return (
-                <div className="" key={video._id}>
-                    <div>
-                        <Link className="link" to={ '/' + video._id}> {video.name} </Link>
-                        <ReactPlayer
-                            url={video.video_path}
-                            className='react-player'
-                            controls
-                            width='30%'
-                            height='30%'
-                        />
-                    </div>
-                </div>
-            );
-        });
+        }
+    })
 
+    const videos = videoList.map(video => {
         return (
-            <React.Fragment>
-                <div className="container">
-                    <h4>Videos</h4>
-                    <hr className="" />
-                    <div className="row">
-                        {videos}
-                    </div>
-                </div>
-            </React.Fragment>
+            <div className="">
+                { loaded ? (
+                    <div className="rowVideo" key={video._id}>
+                        <Link className="linkVideo" to={ '/' + video._id}> {video.name.replace(/.mp4/, '')}
+                            <ReactPlayer
+                                url={video.video_path}
+                                className='react-player'
+                                width='100%'
+                                height='100%'
+                                controls
+                            />
+                        </Link>
+                    </div>): ' Loading ... '}
+            </div>
         );
-    }
-}
+    });
 
-export default Videos;
+    const favoritesVideos = favoriteVideoList.map(video => {
+        return (
+            <div className="">
+                { favLoaded ? (
+                    <div className="rowVideo" key={video._id}>
+                        <Link className="linkVideo" to={ '/' + video._id}> {video.name.replace(/.mp4/, '')}
+                            <ReactPlayer
+                                url={video.video_path}
+                                className='react-player'
+                                width='100%'
+                                height='100%'
+                                controls
+                            />
+                        </Link>
+                    </div>): ' Loading ... '}
+            </div>
+        );
+    });
+
+    return (
+        <div className="container">
+            <h4>Videos</h4>
+            <hr className="" />
+            <div className="containerVideos">
+                {videos}
+            </div>
+            <h4>Favorites videos</h4>
+            <hr className="" />
+            <div className="containerVideos">
+                {favoritesVideos}
+            </div>
+        </div>
+    );
+};
+
+export default Home;

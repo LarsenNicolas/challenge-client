@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import ReactPlayer from "react-player";
+import '../allVideos/Videos.css'
 
 function Favorites() {
     const [videoList, setVideoList] = useState([]);
@@ -19,31 +20,28 @@ function Favorites() {
 
     const videos = videoList.map(video => {
         return (
-            <div className="container">
-                <div className="row">
-                    { loaded ? (
-                    <div className="" key={video._id}>
-                        <div>
-                            <Link className="link" to={ '/' + video._id}> {video.name} </Link>
+            <div className="">
+                { loaded ? (
+                    <div className="rowVideo" key={video._id}>
+                        <Link className="linkVideo" to={ '/' + video._id}> {video.name.replace(/.mp4/, '')}
                             <ReactPlayer
                                 url={video.video_path}
                                 className='react-player'
+                                width='100%'
+                                height='100%'
                                 controls
-                                width='30%'
-                                height='30%'
                             />
-                        </div>
-                    </div>) : ' Loading ... '}
-                </div>
+                        </Link>
+                    </div>): ' Loading ... '}
             </div>
         );
     });
 
     return (
         <div className="container">
-            <h4>Favorites videos</h4>
+            <h4>Videos</h4>
             <hr className="" />
-            <div className="row">
+            <div className="containerVideos">
                 {videos}
             </div>
         </div>

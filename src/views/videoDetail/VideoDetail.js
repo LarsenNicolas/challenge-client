@@ -3,6 +3,8 @@ import axios from 'axios';
 import ReactPlayer from "react-player";
 import {useParams} from "react-router-dom";
 import {useNavigate} from 'react-router-dom';
+import './VideoDetail.css'
+import { toast } from 'react-toastify';
 
 function VideoPlayer() {
   const params = useParams();
@@ -27,7 +29,7 @@ function VideoPlayer() {
     setIsFav(value);
     axios.patch(`http://localhost:4000/updateVideo/${video._id}/${value}`)
         .then(res => {
-          //todo toast
+            toast.success("Video marked as favorite");
         });
   }
 
@@ -35,44 +37,40 @@ function VideoPlayer() {
     let id = video._id;
 
     axios.delete(`http://localhost:4000/deleteVideo/${id}`)
-        .then(res =>
+        .then(res => {
+            toast("Video removed");
             navigate('/')
-        );
+        });
   }
 
   return (
-      <div className="container">
-        <div className="row">
+      <div className="containerVideos">
           { loaded ? (
-              <div className="">
-                <div>
-                  <h4 className="link">{video.name}</h4>
+              <div className="rowVideoDetail" key={video._id}>
+                  <h3 className="titleVideo"> {video.name.replace(/.mp4/, '')} </h3>
                   <ReactPlayer
                       url={video.video_path}
-                      className='react-player'
+                      className="react-player"
                       controls
-                      width='30%'
-                      height='30%'
+                      margin="auto"
                   />
-                  <label>
-                    Favorite
-                    <input
-                        name="isFav"
-                        type="checkbox"
-                        checked={isFav}
-                        onChange={updateVideo} />
+                  <label className="favorite">
+                      Favorite
+                      <input
+                          className="checkbox"
+                          name="isFav"
+                          type="checkbox"
+                          checked={isFav}
+                          onChange={updateVideo} />
                   </label>
                   <button
+                      className="delete"
                       name="delete"
                       onClick={deleteVideo}>Delete
                   </button>
-                </div>
-              </div>
-          ) : ' Loading ... '}
-        </div>
+              </div>): ' Loading ... '}
       </div>
   );
 }
 
 export default VideoPlayer;
-

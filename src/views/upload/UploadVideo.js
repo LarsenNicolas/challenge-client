@@ -3,6 +3,8 @@ import axios from 'axios';
 
 import 'react-toastify/dist/ReactToastify.css';
 import {useNavigate} from 'react-router-dom';
+import {toast} from "react-toastify";
+import './UploadVideo.css';
 
 function UploadVideo () {
     const [selectedVideos, setSelectedVideos] = useState(null);
@@ -21,6 +23,7 @@ function UploadVideo () {
             data.append('creationDate', new Date().toString());
         }
         axios.post('http://localhost:4000/upload', data).then(res => {
+            toast.success("Video upload!");
             navigate('/')
         });
     }
@@ -28,19 +31,20 @@ function UploadVideo () {
     return (
         <div className="container">
                 <h4>Upload Video</h4>
-
-                <form method="post" name="videoUpload" action="/api/upload" id="#" encType="multipart/form-data">
-                    <div className="form-group files">
+                <hr className="" />
+                <form method="post" name="videoUpload" action="/api/upload" encType="multipart/form-data">
+                    <div className="">
                         <input
                             type="file"
                             name="file"
-                            className="form-control"
+                            className="form-control input-video"
                             multiple="multiple"
                             onChange={fileChangeHandler} />
                         <button
                             type="button"
-                            className="btn btn-success btn-block"
-                            onClick={fileUploadHandler}>Upload Video
+                            className="button-video btn btn-success btn-block"
+                            onClick={fileUploadHandler}>
+                            Upload Video
                         </button>
                     </div>
                 </form>

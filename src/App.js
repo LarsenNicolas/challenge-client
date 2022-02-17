@@ -1,25 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { Route, Routes } from "react-router-dom";
 
-function App() {
+import VideoDetail from './views/videoDetail/VideoDetail';
+import Videos from './views/allVideos/Videos';
+import UploadVideo from "./views/upload/UploadVideo";
+import Favorites from "./views/favorites/Favorites";
+import Home from "./views/home/Home";
+
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
+        <Route exact path="/:videoId" element={<VideoDetail/>} />
+        <Route path="/favorites" element={<Favorites/>} />
+        <Route path="/allVideos" element={<Videos/>} />
+        <Route path="/updateVideo" element={<UploadVideo/>} />
+      </Routes>
   );
 }
-
-export default App;

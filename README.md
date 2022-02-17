@@ -68,3 +68,21 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+### DOCKER
+
+build image
+
+docker build -t challenge-client .
+
+run image 
+
+docker run \
+-it \
+--rm \
+-v ${PWD}:/app \
+-v /app/node_modules \
+-p 3000:3000 \
+-e CHOKIDAR_USEPOLLING=true \
+challenge-client 
